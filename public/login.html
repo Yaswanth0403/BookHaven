@@ -1,0 +1,79 @@
+<!Doctype HTML>
+<html>
+<head>
+<title>
+--Login details--
+</title>
+<style>
+body {
+  background-image: url('https://img.freepik.com/free-photo/blurry-restaurant-with-wooden-floor_1203-1440.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+.signin {
+  text-align: center;
+}
+input[type=text], input[type=password] {
+  width: 97%;
+  padding: 11px;
+  margin: 5px 0 20px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+#lgn
+{
+   margin-top:70px;
+   margin-left:400px;
+   margin-right:430px;
+   margin-bottom:90px;
+}
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+label {
+  font-size: 0.8rem;
+  justify-self: end;
+}
+
+input[type='reset'] {
+  width: 5rem;
+  justify-self: end;
+}
+
+input[type='reset'] {
+  grid-column: 2;
+  grid-row: 2;
+}
+</style>
+</head>
+  <body>
+    <form action="/login" method="POST" style="border:1px solid #ccc">
+        <div id="lgn">
+            <h1 style="font-size:40px">Please <strong>Sign Up/Login</strong> to continue</h1>
+            <label for="Name"><b>NAME:</b></label>
+            <input type="text" placeholder="Enter your Name" name="name" required><br>
+            <label for="psw"><b>PASSWORD:</b></label>
+            <input type="password" placeholder="Enter your Password:" name="psw" required><br>
+            <label><input type="checkbox" name="remember">Remember me</label><br>
+            <input type="reset" value="Reset"/>
+            <div class="clearfix">
+                <button type="submit" class="lgnbtn">Login</button>
+            </div>
+            <div class="signin">
+                <p>Already have an account? <a href="signup.html">Sign in</a>.</p>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

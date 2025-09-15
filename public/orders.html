@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Orders</title>
+    <style>
+        /* styles.css */
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #5c6bc0;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        #order-list p {
+            color: #555;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .order-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .order-item img {
+            width: 100px;
+            height: auto;
+            border-radius: 4px;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .order-details {
+            font-size: 1em;
+            color: #666;
+        }
+
+        .order-details h2 {
+            font-size: 1.2em;
+            color: #333;
+            margin: 0;
+        }
+
+        .order-details p {
+            margin: 5px 0;
+        }
+
+        footer {
+            background-color: #5c6bc0;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Your Orders</h1>
+        <nav>
+            <a href="/home">Home</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main id="order-list">
+        <p>Loading your orders...</p>
+    </main>
+    <footer>
+        <p>© 2024 Book Haven</p>
+    </footer>
+    <script>
+        async function fetchOrders() {
+            try {
+                const response = await fetch('/api/orders');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const orders = await response.json();
+                displayOrders(orders);
+            } catch (error) {
+                document.getElementById('order-list').innerHTML = '<p>Error loading orders. Please try again later.</p>';
+                console.error('Error fetching orders:', error);
+            }
+        }
+
+        function displayOrders(orders) {
+            const orderList = document.getElementById('order-list');
+            orderList.innerHTML = ''; // Clear loading message
+
+            if (orders.length === 0) {
+                orderList.innerHTML = '<p>You have no orders.</p>';
+                return;
+            }
+
+            orders.forEach(order => {
+                const orderItem = document.createElement('div');
+                orderItem.classList.add('order-item');
+                orderItem.innerHTML = `
+                    <img src="${order.image}" alt="${order.bookName} cover image" class="order-image">
+                    <div class="order-details">
+                        <h2>Order ID: ${order._id}</h2>
+                        <p>Book: ${order.bookName}</p>
+                        <p>Price: $${order.price}</p>
+                        <p>Quantity: ${order.quantity}</p>
+                        <p>Date: ${new Date(order.date).toLocaleDateString()}</p>
+                    </div>
+                `;
+                orderList.appendChild(orderItem);
+            });
+        }
+
+        fetchOrders(); // Call the function to fetch orders on load
+    </script>
+</body>
+</html>

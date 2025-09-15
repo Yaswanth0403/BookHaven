@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspirational Books</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #5c6bc0;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+}
+
+#search-bar {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.book-item {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 15px;
+    width: calc(30% - 40px);
+    box-sizing: border-box;
+    float: left;
+    text-align: center;
+}
+
+/* Ensures all images are the same size */
+.book-image {
+    width: 100px;
+    height: 150px;
+    object-fit: cover; /* Keeps image aspect ratio */
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+input[type="number"] {
+    width: 60px;
+    margin-right: 10px;
+}
+
+button {
+    background-color: #5c6bc0;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3949ab;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #5c6bc0;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    clear: both;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Adventure Books</h1>
+        <nav>
+            <a href="/home">Home</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <!-- Search Input -->
+        <input type="text" id="search-bar" placeholder="Search by book title or author...">
+
+        <!-- Book List Container -->
+        <div id="book-list">
+            <p>Loading inspirational books...</p>
+        </div>
+    </main>
+    <footer>
+        <p>© 2024 Book Haven</p>
+    </footer>
+    <script>
+        let allBooks = [];
+
+        // Fetch inspirational books
+        async function fetchInspirationalBooks() {
+            try {
+                const response = await fetch('/api/books/adventure');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const books = await response.json();
+                allBooks = books; // Store all books in a variable for filtering
+                displayBooks(books);
+            } catch (error) {
+                document.getElementById('book-list').innerHTML = '<p>Error loading books. Please try again later.</p>';
+                console.error('Error fetching inspirational books:', error);
+            }
+        }
+
+        // Display books function
+        function displayBooks(books) {
+            const bookList = document.getElementById('book-list');
+            bookList.innerHTML = ''; // Clear the current content
+
+            if (books.length === 0) {
+                bookList.innerHTML = '<p>No books found.</p>';
+                return;
+            }
+
+            books.forEach(book => {
+                const bookItem = document.createElement('div');
+                bookItem.classList.add('book-item');
+                bookItem.innerHTML = `
+                    <img src="${book.image}" alt="${book.bookName}" class="book-image">
+                    <h2>${book.bookName}</h2>
+                    <p>${book.description}</p>
+                    <p>Author: ${book.authorName}</p>
+                    <p>Price: $${book.price}</p>
+                    <input type="number" min="1" value="1" id="quantity-${book.bookId}">
+                    <button onclick="addToCart('${book.bookId}', '${book.bookName}', ${book.price}, '${book.image}')">Add to Cart</button>
+                `;
+                bookList.appendChild(bookItem);
+            });
+        }
+
+        // Search filter
+        function filterBooks(event) {
+            const searchQuery = event.target.value.toLowerCase();
+            const filteredBooks = allBooks.filter(book =>
+                book.bookName.toLowerCase().includes(searchQuery) ||
+                book.authorName.toLowerCase().includes(searchQuery)
+            );
+            displayBooks(filteredBooks); // Display only filtered books
+        }
+
+        // Event listener for search input
+        document.getElementById('search-bar').addEventListener('input', filterBooks);
+
+        // Add to cart function
+        async function addToCart(bookId, bookName, price, image) {
+            const quantity = document.getElementById(`quantity-${bookId}`).value;
+            const response = await fetch('/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ bookId, bookName, price, quantity, image })
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        }
+
+        // Fetch books on page load
+        fetchInspirationalBooks();
+    </script>
+</body>
+</html>
