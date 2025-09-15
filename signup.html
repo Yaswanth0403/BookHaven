@@ -1,0 +1,116 @@
+<!Doctype HTML>
+<html>
+<head>
+<title>---PROJECT NAME---</title>
+<style>
+body {
+  background-image: url('https://img.freepik.com/free-photo/abstract-blur-hotel-interior_1203-8512.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+input[type=text], input[type=password],input[type=number],input[type=email] {
+  width: 97%;
+  padding: 11px;
+  margin: 5px 0 20px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+#signup
+{
+   margin-left:400px;
+   margin-right:430px;
+   margin-bottom:30px;
+}
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+ .signupbtn{
+  float: left;
+  width: 100%;
+}
+
+label {
+  font-size: 0.8rem;
+  justify-self: end;
+}
+
+input[type='reset'] {
+  width: 5rem;
+  justify-self: end;
+}
+
+input[type='reset'] {
+  grid-column: 2;
+  grid-row: 2;
+}
+select[name="gender"] {
+  width: 97%;
+  padding: 11px;
+  margin: 5px 0 20px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+select[name="gender"]:focus {
+  outline: none;
+}
+
+select[name="gender"] option {
+  padding: 10px;
+}
+</style>
+</head>
+<body>
+<div id="forms">
+<div id="signup">
+    <form action="/register" method="post" style="border:1px solid #ccc">
+<h1 style="font-size:40px">Please <strong>Sign Up/Login</strong> to continue</h1>
+<label for="Name"><b>NAME:</b></label>
+<input type="text" placeholder="Enter your Name" name="name" required>
+<label for="Last Name"><b>LAST NAME:</b></label>
+<input type="text" placeholder="Enter your Last-Name" name="lastname" required>
+
+<label for="Email"><b>EMAIL:</b></label>
+<input type="email" placeholder="Enter your Email:"  name="email" required>
+<label for="Phone No"><b>PHONE NO:</b></label>
+<input type="number" placeholder="Enter your mobile no:"  name="phone" required>
+<label for="Age"><b>AGE:</b></label>
+<input type="number" placeholder="Enter your Age" name="age" required>
+<select name="gender" required>
+  <option value="" disabled selected>Select your gender</option>
+  <option value="male">Male</option>
+  <option value="female">Female</option>
+  <option value="other">Other</option>
+</select><br>
+<table>
+<tr>
+<th><label for="add"><b>ADDRESS:</b></label></th>
+<td><textarea id="address" name="add" rows="8" cols="53" placeholder="Enter your address for Home Delivery"required></textarea></td>
+</tr>
+</table>
+<label for="psw"><b>PASSWORD:</b></label>
+<input type="password" placeholder="Enter your Password:"  name="psw" required>
+<label><input type="checkbox" checked="unchecked" name="remember" style:margin-bottom:20px>Remember me</label><br>
+<input type="reset" value="Reset"/>
+<p><b>Already have a account?</b><a href="login.html">login</a></p>
+<div class="clearfix">
+<button type="Submit" class="signupbtn" >Sign up</button>
+
+</div>
+</form>
+</div>
+</div>
+</body>
+</html>
