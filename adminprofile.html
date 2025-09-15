@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Haven - Admin Profile</title>
+    <style>
+        /* Styling for the profile page */
+        body {
+            background-image: url('bi6.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+            text-align: center;
+        }
+        .profile-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-info img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .profile-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .profile-details th, .profile-details td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        .profile-details th {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, <span id="adminName"></span></h2>
+        <div class="profile-info">
+            <img src="https://static.pexels.com/photos/6098/man-people-camera-photography.jpg" alt="Profile Image">
+        </div>
+        <div class="profile-details">
+            <h3>Profile Details</h3>
+            <table>
+                <tr><th>Name</th><td id="adminNameDetail"></td></tr>
+                <tr><th>Email</th><td id="adminEmail"></td></tr>
+                <tr><th>Address</th><td id="adminAddress"></td></tr>
+                <tr><th>Age</th><td id="adminAge"></td></tr>
+                <tr><th>Gender</th><td id="adminGender"></td></tr>
+                <tr><th>Mobile Number</th><td id="adminPhone"></td></tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Fetch admin details from the server
+        fetch('/api/admin')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+    .then(data => {
+                document.getElementById('adminName').textContent = data.name;
+                document.getElementById('adminNameDetail').textContent = `${data.name} ${data.lastname || ''}`;
+                document.getElementById('adminEmail').textContent = data.email;
+                document.getElementById('adminAddress').textContent = data.address;
+                document.getElementById('adminAge').textContent = data.age;
+                document.getElementById('adminGender').textContent = data.gender;
+                document.getElementById('adminPhone').textContent = data.phone;
+  })
+  .catch(error => {
+    console.error('Error fetching admin details:', error);
+  });
+
+    </script>
+</body>
+</html>
